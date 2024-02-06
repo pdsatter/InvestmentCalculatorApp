@@ -6,6 +6,9 @@ This app should not be used as financial advice. It is a tool for information pu
 ## Contact Me
 Contact me if you need help with this graph or need any additional features. View my profile for information on contacting me.
 
+## How to run
+Run the gui.py file in VSCode or python interpreter
+
 ## Current Features
 
 * Calculates interest over time. Shows interest earned as green and contributed funds in blue
