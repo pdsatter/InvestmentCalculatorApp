@@ -1,4 +1,5 @@
 import tkinter as tk
+from page import Page
 
 def get_widgets_for_year_data(root, year_data, row, col, startRow):
     year = row - startRow
@@ -33,11 +34,14 @@ def get_widgets_for_year_headers(root, row, col):
     return [contributedFundsHeader, cumulativeInterestEarnedHeader, interestEarnedHeader, totalFundsHeader]
 
 class Table():
-    def __init__(self, root, data, startRow, startCol):
+    def __init__(self, root, startRow, startCol, page=1, pagesize=30):
         self.root = root
-        self.data = data
+        self.data = None
         self.startRow = startRow
         self.startCol = startCol
+
+        self.page = Page(page, pagesize)
+        self.paged_data = None
 
     def set_data(self, data):
         self.data = data
@@ -47,13 +51,13 @@ class Table():
             widget.destroy()
         
     def generate(self, get_widgets_from_data=get_widgets_for_year_data, get_widgets_for_headers=get_widgets_for_year_headers):
-        rows = len(self.data)
+        rows = len(self.paged_data)
 
         headers = get_widgets_for_headers(self. root, self.startRow, self.startCol)
         self._widgets = [headers]
 
         for r in range(rows):
-            widgets_in_row = get_widgets_from_data(self.root, self.data[r], 
+            widgets_in_row = get_widgets_from_data(self.root, self.paged_data[r], 
                                                    row=(r+self.startRow+1), 
                                                    col=self.startCol,
                                                    startRow=self.startRow)
@@ -63,6 +67,23 @@ class Table():
     def get_widgets(self):
         return self._widgets
 
+    def set_page(self, page_number):
+        self.page.set_page(page_number)
+        self.paged_data = self.page.get_page_data(self.data)
 
+        self.update()
 
+    def set_page_size(self, page_number):
+        self.page.set_page_size(page_number)
+        self.paged_data = self.page.get_page_data(self.data)
+
+        self.update()
+
+    def update(self):
+        self.paged_data = self.page.get_page_data(self.data)
+        self.clear_frame()
+        self.generate()
+
+    def get_number_of_pages(self):
+        return self.page.get_number_of_pages(self.data)
 

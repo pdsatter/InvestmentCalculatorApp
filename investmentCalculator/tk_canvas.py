@@ -36,6 +36,8 @@ class CanvasDrawer():
         return rect_width
     
     def calc_normalized_height(self, y_max, y, margin_top=10):
+        if y_max == 0: return 0
+        
         max_height = (y/y_max) * (self.height - margin_top)
 
         return max_height
