@@ -7,8 +7,12 @@ from tk_table import Table
 
 from calculations.calculations import calculate
 
+from theme_selector import darkmode, highlight
+
 canvas_width = 800
 canvas_height = 400
+
+darkmode_enabled = False
 
 def get_list_of_pages(table):
     pages = list(range(1, table.get_number_of_pages() + 1))
@@ -83,29 +87,31 @@ if __name__ == "__main__":
     root.grid_columnconfigure(1, weight=1)
     root.grid_rowconfigure(1, weight=1)
 
+    darkmode(root, darkmode_enabled)
+    
     # Create frames
     main_frame = tk.Frame(root).grid()
 
-    canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightbackground="black", highlightthickness=1)
+    canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     canvasFrame.grid(row=0, column=0, sticky="nsew")
-    canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, bg='white')
+    canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     canvas.pack(side="top")
 
     canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
     
-    tableFrame = tk.Frame(main_frame, borderwidth = 1, highlightbackground="black", highlightthickness=1)
+    tableFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     tableFrame.grid(row=0, column=1, rowspan=3, sticky="nsew")
     table = Table(root=tableFrame, startRow=0, startCol=2)
 
-    inputFrame = tk.Frame(main_frame, borderwidth = 1, highlightbackground="black", highlightthickness=1)
+    inputFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     inputFrame.grid(row=1, column=0, sticky="nesw")
 
     inputFrame.grid_columnconfigure(0, weight=1)
 
-    leftInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightbackground="black", highlightthickness=1)
+    leftInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     leftInputFrame.grid(row=1, column=0, sticky="nsew")
 
-    rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightbackground="black", highlightthickness=1)
+    rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     rightInputFrame.grid(row=1, column=1, sticky="nesw")
 
     # Fill left input frame
