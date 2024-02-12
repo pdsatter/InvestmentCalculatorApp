@@ -14,6 +14,10 @@ canvas_height = 400
 
 darkmode_enabled = False
 
+def set_theme(root):
+    darkmode(root, darkmode_enabled)
+    root.update()
+
 def get_list_of_pages(table):
     pages = list(range(1, table.get_number_of_pages() + 1))
 
@@ -73,6 +77,60 @@ def get_input_data():
 
     return [initialFunds, annualContribution, yearsContributing, returnRate]
 
+def generate_left_input_frame(left_input_frame):
+    initialFundsLabel = tk.Label(left_input_frame, text="Initial Funds ($): ", anchor="w")
+    initialFundsLabel.grid(row=1, column=0, sticky="nsew")
+    initialFundsEntry = tk.Entry(left_input_frame)
+    initialFundsEntry.insert(0, "0")
+    initialFundsEntry.grid(row=1, column=1, columnspan=1, sticky="nsew")
+
+    annualContributionLabel = tk.Label(left_input_frame, text="Annual Contribution ($): ", anchor="w")
+    annualContributionLabel.grid(row=2, column=0, sticky="nsew")
+    annualContributionEntry = tk.Entry(left_input_frame)
+    annualContributionEntry.insert(0, "0")
+    annualContributionEntry.grid(row=2, column=1, columnspan=1, sticky="nsew")
+
+    yearsContributingLabel = tk.Label(left_input_frame, text="Years Contributing (years): ", anchor="w")
+    yearsContributingLabel.grid(row=3, column=0, sticky="nsew")
+    yearsContributingEntry = tk.Entry(left_input_frame)
+    yearsContributingEntry.insert(0, "30")
+    yearsContributingEntry.grid(row=3, column=1, columnspan=1, sticky="nsew")
+
+    returnRateLabel = tk.Label(left_input_frame, text="Return Rate (%): ", anchor="w")
+    returnRateLabel.grid(row=4, column=0, sticky="nsew")
+    returnRateEntry = tk.Entry(left_input_frame)
+    returnRateEntry.insert(0, "6.0")
+    returnRateEntry.grid(row=4, column=1, columnspan=1, sticky="nsew")
+
+    submitButton = tk.Button(left_input_frame, text="Submit", command=lambda: submit(table, get_input_data, page_menu))
+    submitButton.grid(row=6, column=0, sticky="nsew")
+
+    return [initialFundsLabel, initialFundsEntry, annualContributionLabel, annualContributionEntry, yearsContributingEntry, yearsContributingLabel, returnRateEntry, returnRateLabel, submitButton]
+
+def generate_right_input_frame(right_input_frame):
+    pages = get_list_of_pages(table)
+    page_menu_variable = StringVar(right_input_frame)
+    page_menu_variable.set(pages[0])
+
+    pageLabel = tk.Label(right_input_frame, text="Select Tables Page:", anchor="w")
+    pageLabel.grid(row=1, column=2, sticky="nsew")
+    
+    page_menu = OptionMenu(right_input_frame, page_menu_variable, *(pages), command=lambda page: update_page_number(table, page, page_menu_variable))
+    page_menu.grid(row=1, column=4, sticky="nsew")
+
+    pageSize = ['10', '30', '50']
+    page_size_menu_variable = StringVar(right_input_frame)
+    page_size_menu_variable.set(pageSize[1])
+
+    pageSizeLabel = tk.Label(right_input_frame, text="Select Page Size:", anchor="w")
+    pageSizeLabel.grid(row=2, column=2, sticky="nsew")
+    
+    pageSizeMenu = OptionMenu(right_input_frame, page_size_menu_variable, *(pageSize), command=lambda pageSize: update_page_size(table, pageSize, page_size_menu_variable, page_menu))
+    pageSizeMenu.grid(row=2, column=4, sticky="e")
+
+    return [pageLabel, page_menu, pageSizeLabel, pageSizeMenu, page_menu_variable, page_size_menu_variable]
+
+
 if __name__ == "__main__":
 
     root = tk.Tk()
@@ -87,7 +145,7 @@ if __name__ == "__main__":
     root.grid_columnconfigure(1, weight=1)
     root.grid_rowconfigure(1, weight=1)
 
-    darkmode(root, darkmode_enabled)
+    set_theme(root)
     
     # Create frames
     main_frame = tk.Frame(root).grid()
@@ -114,54 +172,11 @@ if __name__ == "__main__":
     rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
     rightInputFrame.grid(row=1, column=1, sticky="nesw")
 
-    # Fill left input frame
-    initialFundsLabel = tk.Label(leftInputFrame, text="Initial Funds ($): ", anchor="w")
-    initialFundsLabel.grid(row=1, column=0, sticky="nsew")
-    initialFundsEntry = tk.Entry(leftInputFrame)
-    initialFundsEntry.insert(0, "0")
-    initialFundsEntry.grid(row=1, column=1, columnspan=1, sticky="nsew")
+    # Generate Left Input Frame
+    [initialFundsLabel, initialFundsEntry, annualContributionLabel, annualContributionEntry, 
+     yearsContributingEntry, yearsContributingLabel, returnRateEntry, returnRateLabel, submitButton] = generate_left_input_frame(leftInputFrame)
 
-    annualContributionLabel = tk.Label(leftInputFrame, text="Annual Contribution ($): ", anchor="w")
-    annualContributionLabel.grid(row=2, column=0, sticky="nsew")
-    annualContributionEntry = tk.Entry(leftInputFrame)
-    annualContributionEntry.insert(0, "0")
-    annualContributionEntry.grid(row=2, column=1, columnspan=1, sticky="nsew")
-
-    yearsContributingLabel = tk.Label(leftInputFrame, text="Years Contributing (years): ", anchor="w")
-    yearsContributingLabel.grid(row=3, column=0, sticky="nsew")
-    yearsContributingEntry = tk.Entry(leftInputFrame)
-    yearsContributingEntry.insert(0, "30")
-    yearsContributingEntry.grid(row=3, column=1, columnspan=1, sticky="nsew")
-
-    returnRateLabel = tk.Label(leftInputFrame, text="Return Rate (%): ", anchor="w")
-    returnRateLabel.grid(row=4, column=0, sticky="nsew")
-    returnRateEntry = tk.Entry(leftInputFrame)
-    returnRateEntry.insert(0, "6.0")
-    returnRateEntry.grid(row=4, column=1, columnspan=1, sticky="nsew")
-
-    submitButton = tk.Button(leftInputFrame, text="Submit", command=lambda: submit(table, get_input_data, page_menu))
-    submitButton.grid(row=6, column=0, sticky="nsew")
-
-    # Fill right input frame
-    # Pages
-    pages = get_list_of_pages(table)
-    page_menu_variable = StringVar(rightInputFrame)
-    page_menu_variable.set(pages[0])
-
-    pageLabel = tk.Label(rightInputFrame, text="Select Tables Page:", anchor="w")
-    pageLabel.grid(row=1, column=2, sticky="nsew")
-    
-    page_menu = OptionMenu(rightInputFrame, page_menu_variable, *(pages), command=lambda page: update_page_number(table, page, page_menu_variable))
-    page_menu.grid(row=1, column=4, sticky="nsew")
-
-    pageSize = ['10', '30', '50']
-    page_size_menu_variable = StringVar(rightInputFrame)
-    page_size_menu_variable.set(pageSize[1])
-
-    pageSizeLabel = tk.Label(rightInputFrame, text="Select Page Size:", anchor="w")
-    pageSizeLabel.grid(row=2, column=2, sticky="nsew")
-    
-    pageSizeMenu = OptionMenu(rightInputFrame, page_size_menu_variable, *(pageSize), command=lambda pageSize: update_page_size(table, pageSize, page_size_menu_variable, page_menu))
-    pageSizeMenu.grid(row=2, column=4, sticky="e")
+    # Generate Right Input Frame
+    [pageLabel, page_menu, pageSizeLabel, pageSizeMenu, page_menu_variable, page_size_menu_variable] = generate_right_input_frame(rightInputFrame)
 
     root.mainloop()
