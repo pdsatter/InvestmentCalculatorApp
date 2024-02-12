@@ -1,9 +1,7 @@
 import tkinter as tk
 from page import Page
 
-def get_widgets_for_year_data(root, year_data, row, col, startRow):
-    year = row - startRow
-
+def get_widgets_for_year_data(root, year_data, row, col):
     yearLabel = tk.Label(root, text=f"{year_data.year}", anchor="w")
     contributedFundsLabel = tk.Label(root, text=f"${year_data.finalContributedFunds:,.2f}", anchor="w")
     cumulativeInterestEarnedLabel = tk.Label(root, text=f"${year_data.finalInterestFunds:,.2f}", anchor="w")
@@ -59,8 +57,7 @@ class Table():
         for r in range(rows):
             widgets_in_row = get_widgets_from_data(self.root, self.paged_data[r], 
                                                    row=(r+self.startRow+1), 
-                                                   col=self.startCol,
-                                                   startRow=self.startRow)
+                                                   col=self.startCol)
             
             self._widgets.append(widgets_in_row)
 
