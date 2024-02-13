@@ -23,8 +23,8 @@ def get_list_of_pages(table):
 
 def update_page_ui_select(table, page_menu, page_menu_variable):
     pages = get_list_of_pages(table)
-   
-    page_menu_variable.set(str(pages[0]))
+    if int(page_menu_variable.get()) > len(pages):
+        page_menu_variable.set(str(pages[0]))
 
     page_menu['menu'].delete(0, 'end')
     
@@ -60,29 +60,29 @@ def calculate_data(table, canvas_drawer, initialFunds,  annualContribution, year
 def generate_graph(data, canvas_drawer):
     canvas_drawer.draw_years(data)
 
-def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer, page_menu_variable):
+def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer):
     initialFundsLabel = tk.Label(left_input_frame, text="Initial Funds ($): ", anchor="w")
     initialFundsLabel.grid(row=1, column=0, sticky="nsew")
     initialFundsEntry = tk.Entry(left_input_frame)
-    initialFundsEntry.insert(0, "0")
+    initialFundsEntry.insert(0, initial_funds_variable.get())
     initialFundsEntry.grid(row=1, column=1, columnspan=1, sticky="nsew")
 
     annualContributionLabel = tk.Label(left_input_frame, text="Annual Contribution ($): ", anchor="w")
     annualContributionLabel.grid(row=2, column=0, sticky="nsew")
     annualContributionEntry = tk.Entry(left_input_frame)
-    annualContributionEntry.insert(0, "0")
+    annualContributionEntry.insert(0, annual_contribution_variable.get())
     annualContributionEntry.grid(row=2, column=1, columnspan=1, sticky="nsew")
 
     yearsContributingLabel = tk.Label(left_input_frame, text="Years Contributing (years): ", anchor="w")
     yearsContributingLabel.grid(row=3, column=0, sticky="nsew")
     yearsContributingEntry = tk.Entry(left_input_frame)
-    yearsContributingEntry.insert(0, "30")
+    yearsContributingEntry.insert(0, years_contributing_variable.get())
     yearsContributingEntry.grid(row=3, column=1, columnspan=1, sticky="nsew")
 
     returnRateLabel = tk.Label(left_input_frame, text="Return Rate (%): ", anchor="w")
     returnRateLabel.grid(row=4, column=0, sticky="nsew")
     returnRateEntry = tk.Entry(left_input_frame)
-    returnRateEntry.insert(0, "6.0")
+    returnRateEntry.insert(0, return_rate_variable.get())
     returnRateEntry.grid(row=4, column=1, columnspan=1, sticky="nsew")
 
     submitButton = tk.Button(left_input_frame, text="Submit", command=lambda: submit(table, page_menu, canvas_drawer, page_menu_variable,
@@ -92,8 +92,9 @@ def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer,
 
 def generate_right_input_frame(right_input_frame, table):
     pages = get_list_of_pages(table)
-    page_menu_variable = StringVar(right_input_frame)
-    page_menu_variable.set(pages[0])
+
+    if page_menu_variable.get() == '':
+        page_menu_variable.set(pages[0])
 
     pageLabel = tk.Label(right_input_frame, text="Select Tables Page:", anchor="w")
     pageLabel.grid(row=1, column=2, sticky="nsew")
@@ -102,8 +103,8 @@ def generate_right_input_frame(right_input_frame, table):
     page_menu.grid(row=1, column=4, sticky="nsew")
 
     pageSize = ['10', '30', '50']
-    page_size_menu_variable = StringVar(right_input_frame)
-    page_size_menu_variable.set(pageSize[1])
+    if (page_size_menu_variable.get() == ''):
+        page_size_menu_variable.set(pageSize[1])
 
     pageSizeLabel = tk.Label(right_input_frame, text="Select Page Size:", anchor="w")
     pageSizeLabel.grid(row=2, column=2, sticky="nsew")
@@ -111,7 +112,7 @@ def generate_right_input_frame(right_input_frame, table):
     pageSizeMenu = OptionMenu(right_input_frame, page_size_menu_variable, *(pageSize), command=lambda pageSize: update_page_size(table, pageSize, page_size_menu_variable, page_menu, page_menu_variable))
     pageSizeMenu.grid(row=2, column=4, sticky="e")
 
-    return [page_menu, page_menu_variable]
+    return [page_menu]
 
 def create_frames(root):
     main_frame = tk.Frame(root).grid()
@@ -146,7 +147,6 @@ def preferences(frame):
     dark_mode_check_box.grid(row=0, column=2, sticky="e")
 
 def gui(root):
-
     [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame] = create_frames(root)
 
     canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
@@ -156,9 +156,9 @@ def gui(root):
 
     table = Table(root=tableFrame, startRow=0, startCol=2)
 
-    [page_menu, page_menu_variable] = generate_right_input_frame(rightInputFrame, table)
+    [page_menu] = generate_right_input_frame(rightInputFrame, table)
 
-    generate_left_input_frame(leftInputFrame, table, page_menu, canvas_drawer, page_menu_variable)
+    generate_left_input_frame(leftInputFrame, table, page_menu, canvas_drawer)
 
     dark_mode_check_box = tk.Checkbutton(topBarFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
     dark_mode_check_box.grid(row=0, column=2, sticky="e")
@@ -180,6 +180,14 @@ if __name__ == "__main__":
     root.grid_rowconfigure(2, weight=1)
 
     darkmode_enabled = tk.BooleanVar(value=False)
+
+    page_menu_variable = StringVar()
+    page_size_menu_variable = StringVar()
+
+    initial_funds_variable = tk.DoubleVar(value=0)
+    annual_contribution_variable = tk.DoubleVar(value=0)
+    years_contributing_variable = tk.IntVar(value=30)
+    return_rate_variable = tk.DoubleVar(value=6)
 
     theme(root, darkmode_enabled.get())
 
