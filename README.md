@@ -36,3 +36,12 @@ Use PyInstaller Module
 ```
 py -m PyInstaller gui.py
 ```
+
+## Needed modules
+```
+py -m pip install tkinter
+```
+
+```
+py -m pip install PyInstaller
+```
