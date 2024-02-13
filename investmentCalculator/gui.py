@@ -15,6 +15,7 @@ def theme(root, darkmode_enabled):
     set_theme(root, darkmode_enabled)
     gui(root)
 
+
 def get_list_of_pages(table):
     pages = list(range(1, table.get_number_of_pages() + 1))
 
@@ -57,38 +58,55 @@ def calculate_data(table, canvas_drawer, initialFunds,  annualContribution, year
 
     generate_graph(data, canvas_drawer)
 
+def set_number_variable_from_input(var, input):
+    if input.get() == '':
+        var.set(0)
+    else:
+        var.set(input.get())
+
 def generate_graph(data, canvas_drawer):
     canvas_drawer.draw_years(data)
 
 def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer):
     initialFundsLabel = tk.Label(left_input_frame, text="Initial Funds ($): ", anchor="w")
     initialFundsLabel.grid(row=1, column=0, sticky="nsew")
+
     initialFundsEntry = tk.Entry(left_input_frame)
     initialFundsEntry.insert(0, initial_funds_variable.get())
     initialFundsEntry.grid(row=1, column=1, columnspan=1, sticky="nsew")
 
     annualContributionLabel = tk.Label(left_input_frame, text="Annual Contribution ($): ", anchor="w")
     annualContributionLabel.grid(row=2, column=0, sticky="nsew")
+    
     annualContributionEntry = tk.Entry(left_input_frame)
     annualContributionEntry.insert(0, annual_contribution_variable.get())
     annualContributionEntry.grid(row=2, column=1, columnspan=1, sticky="nsew")
 
     yearsContributingLabel = tk.Label(left_input_frame, text="Years Contributing (years): ", anchor="w")
     yearsContributingLabel.grid(row=3, column=0, sticky="nsew")
+    
     yearsContributingEntry = tk.Entry(left_input_frame)
     yearsContributingEntry.insert(0, years_contributing_variable.get())
     yearsContributingEntry.grid(row=3, column=1, columnspan=1, sticky="nsew")
 
     returnRateLabel = tk.Label(left_input_frame, text="Return Rate (%): ", anchor="w")
     returnRateLabel.grid(row=4, column=0, sticky="nsew")
+    
     returnRateEntry = tk.Entry(left_input_frame)
     returnRateEntry.insert(0, return_rate_variable.get())
     returnRateEntry.grid(row=4, column=1, columnspan=1, sticky="nsew")
+
+    initialFundsEntry.bind('<KeyRelease>', lambda event: set_number_variable_from_input(initial_funds_variable, initialFundsEntry))
+    annualContributionEntry.bind('<KeyRelease>', lambda event: set_number_variable_from_input(annual_contribution_variable, annualContributionEntry))
+    yearsContributingEntry.bind('<KeyRelease>', lambda event: set_number_variable_from_input(years_contributing_variable, yearsContributingEntry))
+    returnRateEntry.bind('<KeyRelease>', lambda event: set_number_variable_from_input(return_rate_variable, returnRateEntry))
 
     submitButton = tk.Button(left_input_frame, text="Submit", command=lambda: submit(table, page_menu, canvas_drawer, page_menu_variable,
                                                                                      initialFunds=float(initialFundsEntry.get()), annualContribution=float(annualContributionEntry.get()), 
                                                                                      yearsContributing=float(yearsContributingEntry.get()), returnRate=float(returnRateEntry.get())/100))
     submitButton.grid(row=6, column=0, sticky="nsew")
+
+    return [submitButton]
 
 def generate_right_input_frame(right_input_frame, table):
     pages = get_list_of_pages(table)
@@ -140,7 +158,7 @@ def create_frames(root):
     return [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame]
 
 def preferences(frame):
-    preferencesLabel = tk.Label(frame, text="Preferences (refreshes gui): ")
+    preferencesLabel = tk.Label(frame, text="Preferences: ")
     preferencesLabel.grid(row=0, column=1, sticky="nsew")
 
     dark_mode_check_box = tk.Checkbutton(frame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
@@ -158,12 +176,14 @@ def gui(root):
 
     [page_menu] = generate_right_input_frame(rightInputFrame, table)
 
-    generate_left_input_frame(leftInputFrame, table, page_menu, canvas_drawer)
+    [submitButton] = generate_left_input_frame(leftInputFrame, table, page_menu, canvas_drawer)
 
     dark_mode_check_box = tk.Checkbutton(topBarFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
     dark_mode_check_box.grid(row=0, column=2, sticky="e")
 
-    preferences(topBarFrame)   
+    dark_mode_check_box.bind('<Configure>', lambda event: submitButton.invoke())
+    preferences(topBarFrame)
+
 
 if __name__ == "__main__":
 
