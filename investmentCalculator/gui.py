@@ -14,7 +14,7 @@ canvas_height = 400
 
 def theme(root, darkmode_enabled):
     set_theme(root, darkmode_enabled)
-    rerender_all_widgets(root)
+    gui(root)
     print(darkmode_enabled)
 
 def toggle_theme(darkmode_enabled):
@@ -51,11 +51,11 @@ def submit(table, page_menu, canvas_drawer, page_menu_variable, initialFunds, an
 
     update_page_ui_select(table, page_menu, page_menu_variable)
 
-def update_page_size(table, page_size, page_size_menu_variable, page_menu):
+def update_page_size(table, page_size, page_size_menu_variable, page_menu, page_menu_variable):
     table.set_page_size(str(page_size))
     page_size_menu_variable.set(page_size)
 
-    update_page_ui_select(table, page_menu)
+    update_page_ui_select(table, page_menu, page_menu_variable)
 
 def update_page_number(table, page_number, page_menu_variable):
     table.set_page(str(page_number))
@@ -121,7 +121,7 @@ def generate_right_input_frame(right_input_frame, table):
     pageSizeLabel = tk.Label(right_input_frame, text="Select Page Size:", anchor="w")
     pageSizeLabel.grid(row=2, column=2, sticky="nsew")
     
-    pageSizeMenu = OptionMenu(right_input_frame, page_size_menu_variable, *(pageSize), command=lambda pageSize: update_page_size(table, pageSize, page_size_menu_variable, page_menu))
+    pageSizeMenu = OptionMenu(right_input_frame, page_size_menu_variable, *(pageSize), command=lambda pageSize: update_page_size(table, pageSize, page_size_menu_variable, page_menu, page_menu_variable))
     pageSizeMenu.grid(row=2, column=4, sticky="e")
 
     return [page_menu, page_menu_variable]
