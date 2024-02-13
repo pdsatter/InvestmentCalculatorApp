@@ -12,11 +12,20 @@ from theme_selector import set_theme, highlight
 canvas_width = 800
 canvas_height = 400
 
-darkmode_enabled = False
-
-def theme(root):
+def theme(root, darkmode_enabled):
     set_theme(root, darkmode_enabled)
+    rerender_all_widgets(root)
+    print(darkmode_enabled)
+
+def toggle_theme(darkmode_enabled):
+    darkmode_enabled = not darkmode_enabled
+
+def rerender_all_widgets(root):
+    for widget in root.winfo_children():
+        rerender_all_widgets(widget)
+
     root.update()
+
 
 def get_list_of_pages(table):
     pages = list(range(1, table.get_number_of_pages() + 1))
@@ -145,31 +154,33 @@ if __name__ == "__main__":
     root.grid_columnconfigure(1, weight=1)
     root.grid_rowconfigure(1, weight=1)
 
-    theme(root)
+    darkmode_enabled = tk.BooleanVar(value=False)
+
+    theme(root, darkmode_enabled.get())
     
     # Create frames
     main_frame = tk.Frame(root).grid()
 
-    canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
+    canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     canvasFrame.grid(row=0, column=0, sticky="nsew")
-    canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
+    canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     canvas.pack(side="top")
 
     canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
     
-    tableFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
+    tableFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     tableFrame.grid(row=0, column=1, rowspan=3, sticky="nsew")
     table = Table(root=tableFrame, startRow=0, startCol=2)
 
-    inputFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
+    inputFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     inputFrame.grid(row=1, column=0, sticky="nesw")
 
     inputFrame.grid_columnconfigure(0, weight=1)
 
-    leftInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
+    leftInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     leftInputFrame.grid(row=1, column=0, sticky="nsew")
 
-    rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled))
+    rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     rightInputFrame.grid(row=1, column=1, sticky="nesw")
 
     # Generate Left Input Frame
@@ -179,4 +190,8 @@ if __name__ == "__main__":
     # Generate Right Input Frame
     [pageLabel, page_menu, pageSizeLabel, pageSizeMenu, page_menu_variable, page_size_menu_variable] = generate_right_input_frame(rightInputFrame)
 
+    # Check Box
+    dark_mode_check_box = tk.Checkbutton(rightInputFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
+    dark_mode_check_box.grid(row=3, column=4, sticky="e")
+    
     root.mainloop()
