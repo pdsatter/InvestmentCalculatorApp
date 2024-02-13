@@ -24,7 +24,7 @@ Run the gui.py file in VSCode or python interpreter
 
 ## Planned features (as time permits / per request)
 * Monthly contribution (instead of yearly)
-* Can stop contributing after so many years
+* Can increase contributions by percentage every year
 * User Preferences
   * Graph color
   * Font
