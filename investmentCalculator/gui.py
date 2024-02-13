@@ -15,7 +15,6 @@ canvas_height = 400
 def theme(root, darkmode_enabled):
     set_theme(root, darkmode_enabled)
     gui(root)
-    print(darkmode_enabled)
 
 def toggle_theme(darkmode_enabled):
     darkmode_enabled = not darkmode_enabled
