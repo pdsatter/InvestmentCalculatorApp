@@ -102,7 +102,6 @@ def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer,
                                                                                      yearsContributing=float(yearsContributingEntry.get()), returnRate=float(returnRateEntry.get())/100))
     submitButton.grid(row=6, column=0, sticky="nsew")
 
-
 def generate_right_input_frame(right_input_frame, table):
     pages = get_list_of_pages(table)
     page_menu_variable = StringVar(right_input_frame)
@@ -126,23 +125,20 @@ def generate_right_input_frame(right_input_frame, table):
 
     return [page_menu, page_menu_variable]
 
-def gui(root):
-
+def create_frames(root):
     main_frame = tk.Frame(root).grid()
 
-    canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    canvasFrame.grid(row=0, column=0, sticky="nsew")
-    canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    canvas.pack(side="top")
+    topBarFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
+    topBarFrame.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
-    canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
-    
+    canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
+    canvasFrame.grid(row=1, column=0, sticky="nsew")
+
     tableFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    tableFrame.grid(row=0, column=1, rowspan=3, sticky="nsew")
-    table = Table(root=tableFrame, startRow=0, startCol=2)
+    tableFrame.grid(row=1, column=1, rowspan=3, sticky="nsew")
 
     inputFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    inputFrame.grid(row=1, column=0, sticky="nesw")
+    inputFrame.grid(row=2, column=0, sticky="nesw")
 
     inputFrame.grid_columnconfigure(0, weight=1)
 
@@ -152,11 +148,35 @@ def gui(root):
     rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     rightInputFrame.grid(row=1, column=1, sticky="nesw")
 
+    return [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame]
+
+def preferences(frame):
+    preferencesLabel = tk.Label(frame, text="Preferences (refreshes gui): ")
+    preferencesLabel.grid(row=0, column=1, sticky="nsew")
+
+    dark_mode_check_box = tk.Checkbutton(frame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
+    dark_mode_check_box.grid(row=0, column=2, sticky="e")
+
+
+def gui(root):
+
+    [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame] = create_frames(root)
+
+    canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
+    canvas.pack(side="top")
+
+    canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
+
+    table = Table(root=tableFrame, startRow=0, startCol=2)
+
     [page_menu, page_menu_variable] = generate_right_input_frame(rightInputFrame, table)
+
     generate_left_input_frame(leftInputFrame, table, page_menu, canvas_drawer, page_menu_variable)
 
-    dark_mode_check_box = tk.Checkbutton(rightInputFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
-    dark_mode_check_box.grid(row=3, column=4, sticky="e")
+    dark_mode_check_box = tk.Checkbutton(topBarFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
+    dark_mode_check_box.grid(row=0, column=2, sticky="e")
+
+    preferences(topBarFrame)
     
     
 
@@ -171,8 +191,8 @@ if __name__ == "__main__":
     root.winfo_screenwidth()
     root.winfo_screenheight()
 
-    root.grid_columnconfigure(1, weight=1)
-    root.grid_rowconfigure(1, weight=1)
+    root.grid_columnconfigure(2, weight=1)
+    root.grid_rowconfigure(2, weight=1)
 
     darkmode_enabled = tk.BooleanVar(value=False)
 
