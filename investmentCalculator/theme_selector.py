@@ -1,36 +1,39 @@
 from theme.darkmode import DarkMode
 from theme.lightmode import LightMode
 
-def darkmode(root, darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    
-    root.option_add("*Frame*Background", theme.widget())
-    root.option_add("*Frame*Foreground", theme.text())
-    root.option_add("*Frame*Outline", theme.highlight())
+def theme(darkmode_enabled):
+    return DarkMode if darkmode_enabled else LightMode
 
-    root.option_add("*Button*Background", theme.button())
-    root.option_add("*Button*Foreground", theme.button_click())
+def set_theme(root, darkmode_enabled):
+    selected_theme = theme(darkmode_enabled)
+    
+    root.option_add("*Frame*Background", selected_theme.widget())
+    root.option_add("*Frame*Foreground", selected_theme.text())
+    root.option_add("*Frame*Outline", selected_theme.highlight())
+
+    root.option_add("*Button*Background", selected_theme.button())
+    root.option_add("*Button*Foreground", selected_theme.button_click())
 
 def background(darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    return theme.background()
+    selected_theme = theme(darkmode_enabled)
+    return selected_theme.background()
 
 def text(darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    return theme.text()
+    selected_theme = theme(darkmode_enabled)
+    return selected_theme.text()
 
 def widget(darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    return theme.widget()
+    selected_theme = theme(darkmode_enabled)
+    return selected_theme.widget()
 
 def button(darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    return theme.button()
+    selected_theme = theme(darkmode_enabled)
+    return selected_theme.button()
 
 def button_click(darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    return theme.button_click(darkmode_enabled)
+    selected_theme = theme(darkmode_enabled)
+    return selected_theme.button_click(darkmode_enabled)
 
 def highlight(darkmode_enabled):
-    theme = DarkMode if darkmode_enabled else LightMode
-    return theme.highlight()
+    selected_theme = theme(darkmode_enabled)
+    return selected_theme.highlight()

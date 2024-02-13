@@ -7,15 +7,15 @@ from tk_table import Table
 
 from calculations.calculations import calculate
 
-from theme_selector import darkmode, highlight
+from theme_selector import set_theme, highlight
 
 canvas_width = 800
 canvas_height = 400
 
 darkmode_enabled = False
 
-def set_theme(root):
-    darkmode(root, darkmode_enabled)
+def theme(root):
+    set_theme(root, darkmode_enabled)
     root.update()
 
 def get_list_of_pages(table):
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     root.grid_columnconfigure(1, weight=1)
     root.grid_rowconfigure(1, weight=1)
 
-    set_theme(root)
+    theme(root)
     
     # Create frames
     main_frame = tk.Frame(root).grid()
