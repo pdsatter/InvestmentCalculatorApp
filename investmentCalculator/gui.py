@@ -16,16 +16,6 @@ def theme(root, darkmode_enabled):
     set_theme(root, darkmode_enabled)
     gui(root)
 
-def toggle_theme(darkmode_enabled):
-    darkmode_enabled = not darkmode_enabled
-
-def rerender_all_widgets(root):
-    for widget in root.winfo_children():
-        rerender_all_widgets(widget)
-
-    root.update()
-
-
 def get_list_of_pages(table):
     pages = list(range(1, table.get_number_of_pages() + 1))
 
@@ -156,7 +146,6 @@ def preferences(frame):
     dark_mode_check_box = tk.Checkbutton(frame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
     dark_mode_check_box.grid(row=0, column=2, sticky="e")
 
-
 def gui(root):
 
     [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame] = create_frames(root)
@@ -175,9 +164,7 @@ def gui(root):
     dark_mode_check_box = tk.Checkbutton(topBarFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
     dark_mode_check_box.grid(row=0, column=2, sticky="e")
 
-    preferences(topBarFrame)
-    
-    
+    preferences(topBarFrame)   
 
 if __name__ == "__main__":
 
@@ -200,3 +187,4 @@ if __name__ == "__main__":
     gui(root)
 
     root.mainloop()
+    
