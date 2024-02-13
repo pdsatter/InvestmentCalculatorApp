@@ -177,42 +177,7 @@ if __name__ == "__main__":
     darkmode_enabled = tk.BooleanVar(value=False)
 
     theme(root, darkmode_enabled.get())
-    
-    # Create frames
-    # main_frame = tk.Frame(root).grid()
 
-    # canvasFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    # canvasFrame.grid(row=0, column=0, sticky="nsew")
-    # canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    # canvas.pack(side="top")
-
-    # canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
-    
-    # tableFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    # tableFrame.grid(row=0, column=1, rowspan=3, sticky="nsew")
-    # table = Table(root=tableFrame, startRow=0, startCol=2)
-
-    # inputFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    # inputFrame.grid(row=1, column=0, sticky="nesw")
-
-    # inputFrame.grid_columnconfigure(0, weight=1)
-
-    # leftInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    # leftInputFrame.grid(row=1, column=0, sticky="nsew")
-
-    # rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    # rightInputFrame.grid(row=1, column=1, sticky="nesw")
-
-    # Generate Left Input Frame
-    # [initialFundsLabel, initialFundsEntry, annualContributionLabel, annualContributionEntry, 
-    #  yearsContributingEntry, yearsContributingLabel, returnRateEntry, returnRateLabel, submitButton] = generate_left_input_frame(leftInputFrame)
-
-    # # Generate Right Input Frame
-    # [pageLabel, page_menu, pageSizeLabel, pageSizeMenu, page_menu_variable, page_size_menu_variable] = generate_right_input_frame(rightInputFrame, table)
-
-    # Check Box
-    # dark_mode_check_box = tk.Checkbutton(rightInputFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
-    # dark_mode_check_box.grid(row=3, column=4, sticky="e")
     gui(root)
 
     root.mainloop()
