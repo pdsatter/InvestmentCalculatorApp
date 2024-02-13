@@ -21,6 +21,7 @@ Run the gui.py file in VSCode or python interpreter
 * Displays in both Table and Graphical form
 * Displays Cumulative Interest, Yearly Interest, Contributed Funds, and Total Balance for each year.
 * User can adjust average return rate, years contributing, annual contribution, and initial balance
+* Dark mode
 
 ## Planned features (as time permits / per request)
 * Monthly contribution (instead of yearly)
