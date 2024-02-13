@@ -28,3 +28,10 @@ Run the gui.py file in VSCode or python interpreter
 * User Preferences
   * Graph color
   * Font
+
+## Compile new GUI
+Use PyInstaller Module  
+
+```
+py -m PyInstaller gui.py
+```
