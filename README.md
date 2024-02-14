@@ -24,6 +24,7 @@ Run the gui.py file in VSCode or python interpreter
 * User can adjust average return rate, years contributing, annual contribution, and initial balance
 * Dark mode
 * Dynamic resizing
+* Change when the funds are invested
 
 ## Planned features (as time permits / per request)
 * Monthly contribution (instead of yearly)
