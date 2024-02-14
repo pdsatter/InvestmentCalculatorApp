@@ -8,7 +8,7 @@ Contact me if you need help or additional features. View my profile for informat
 
 ## How to run
 ### To run Windows build
-1. Go to green code folder and download zip
+1. Go to green "code" button and choose download zip
 2. Go to "windows_distribution" folder
 3. Open "gui" file
 4. Thats it :D
