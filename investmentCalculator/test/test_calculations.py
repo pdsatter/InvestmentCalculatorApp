@@ -83,7 +83,5 @@ class TestCalculations(unittest.TestCase):
         self.assertEqual(round(first_year.finalTotalFunds, 2), 2860.00)
         self.assertEqual(round(last_year.finalTotalFunds, 2), 41355.29)
 
-
-
 if __name__ == '__main__':
     unittest.main()
