@@ -24,4 +24,3 @@ class Page():
         pages = [data[x:x+int(self.page_size)] for x in range(0, len(data), int(self.page_size))]
 
         return len(pages)
-

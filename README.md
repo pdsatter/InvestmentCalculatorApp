@@ -13,8 +13,7 @@ Contact me if you need help or additional features. View my profile for informat
 3. Open "gui" file
 4. Thats it :D
 
-### For programers
-Run the gui.py file in VSCode or python interpreter
+
 
 ## Current Features
 
@@ -33,11 +32,19 @@ Run the gui.py file in VSCode or python interpreter
   * Graph color
   * Font
 
-## Compile new GUI
+## For programers
+Run the gui.py file in VSCode or python interpreter
+### Compile new GUI
 Use PyInstaller Module  
 
 ```
 py -m PyInstaller gui.py
+```
+
+### Run Unit tests
+In root directory run:
+```
+py -m unittest
 ```
 
 ## Needed modules
