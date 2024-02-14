@@ -15,7 +15,6 @@ def theme(root, darkmode_enabled):
     set_theme(root, darkmode_enabled)
     gui(root)
 
-
 def get_list_of_pages(table):
     pages = list(range(1, table.get_number_of_pages() + 1))
 
