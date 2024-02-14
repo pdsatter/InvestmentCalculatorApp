@@ -48,3 +48,4 @@ coverage.xml
 
 # Sphinx documentation
 docs_build
+investmentCalculator/calculations/__pycache__/calculations.cpython-312.pyc
