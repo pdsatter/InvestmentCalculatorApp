@@ -34,8 +34,8 @@ def update_page_ui_select(table, page_menu, page_menu_variable):
 
     page_menu.update()
 
-def submit(table, page_menu, canvas_drawer, page_menu_variable, initialFunds, annualContribution, contributionTime, yearsContributing, returnRate):
-    calculate_data(table, canvas_drawer, initialFunds, annualContribution, contributionTime, yearsContributing, returnRate)
+def submit(table, page_menu, canvas_drawer, page_menu_variable, initialFunds, annualContribution, contributionType, yearsContributing, returnRate):
+    calculate_data(table, canvas_drawer, initialFunds, annualContribution, contributionType, yearsContributing, returnRate)
 
     update_page_ui_select(table, page_menu, page_menu_variable)
 
@@ -49,8 +49,8 @@ def update_page_number(table, page_number, page_menu_variable):
     table.set_page(str(page_number))
     page_menu_variable.set(page_number)
 
-def calculate_data(table, canvas_drawer, initialFunds,  annualContribution, contributionTime, yearsContributing, returnRate):
-    data = calculate(initialFunds, annualContribution, contributionTime, yearsContributing, returnRate)
+def calculate_data(table, canvas_drawer, initialFunds,  annualContribution, contributionType, yearsContributing, returnRate):
+    data = calculate(initialFunds, annualContribution, contributionType, yearsContributing, returnRate)
 
     table.set_data(data)
     table.update()
@@ -82,8 +82,8 @@ def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer)
     annualContributionEntry.grid(row=2, column=1, columnspan=1, sticky="nsew")
 
     contribution_options = ['Year Start', 'Year End']
-    contributionTimeMenu = OptionMenu(left_input_frame, contribution_time_variable, *(contribution_options))
-    contributionTimeMenu.grid(row=2, column=2, sticky="nsew")
+    contributionTypeMenu = OptionMenu(left_input_frame, contribution_type_variable, *(contribution_options))
+    contributionTypeMenu.grid(row=2, column=2, sticky="nsew")
 
     yearsContributingLabel = tk.Label(left_input_frame, text="Years Contributing (years): ", anchor="w")
     yearsContributingLabel.grid(row=3, column=0, sticky="nsew")
@@ -107,7 +107,7 @@ def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer)
     submitButton = tk.Button(left_input_frame, text="Submit", 
                              command=lambda: submit(table, page_menu, canvas_drawer, page_menu_variable,
                                                     initialFunds=float(initialFundsEntry.get()), annualContribution=float(annualContributionEntry.get()), 
-                                                    contributionTime=contribution_time_variable.get(), yearsContributing=float(yearsContributingEntry.get()), 
+                                                    contributionType=contribution_type_variable.get(), yearsContributing=float(yearsContributingEntry.get()), 
                                                     returnRate=float(returnRateEntry.get())/100))
     
     submitButton.grid(row=6, column=0, sticky="nsew")
@@ -214,7 +214,7 @@ if __name__ == "__main__":
 
     initial_funds_variable = tk.DoubleVar(value=0)
     annual_contribution_variable = tk.DoubleVar(value=0)
-    contribution_time_variable = tk.StringVar(value='Year Start')
+    contribution_type_variable = tk.StringVar(value='Year Start')
     years_contributing_variable = tk.IntVar(value=30)
     return_rate_variable = tk.DoubleVar(value=6)
 
