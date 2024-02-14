@@ -133,7 +133,7 @@ def generate_right_input_frame(right_input_frame, table):
     return [page_menu]
 
 def create_frames(root):
-    main_frame = tk.Frame(root).grid(sticky="nsew")
+    main_frame = tk.Frame(root).grid()
 
     topBarFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     topBarFrame.grid(row=0, column=0, columnspan=2, sticky="nsew")
@@ -148,12 +148,13 @@ def create_frames(root):
     inputFrame.grid(row=2, column=0, sticky="nesw")
 
     inputFrame.grid_columnconfigure(0, weight=1)
+    inputFrame.grid_rowconfigure(0, weight=1)
 
     leftInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    leftInputFrame.grid(row=1, column=0, sticky="nsew")
+    leftInputFrame.grid(row=0, column=0, sticky="nsew")
 
     rightInputFrame = tk.Frame(inputFrame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    rightInputFrame.grid(row=1, column=1, sticky="nesw")
+    rightInputFrame.grid(row=0, column=1, sticky="nesw")
 
     return [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame]
 
@@ -186,7 +187,6 @@ def gui(root):
     dark_mode_check_box.bind('<Configure>', lambda event: submitButton.invoke())
     preferences(topBarFrame)
 
-
 if __name__ == "__main__":
 
     root = tk.Tk()
@@ -197,7 +197,6 @@ if __name__ == "__main__":
 
     root.winfo_screenwidth()
     root.winfo_screenheight()
-
 
     root.grid_columnconfigure(0, weight=1)
 
