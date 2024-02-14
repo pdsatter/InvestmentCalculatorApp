@@ -17,12 +17,13 @@ class YearlyInfo():
 
         self.finalTotalFunds = self.finalInterestFunds + self.finalContributedFunds
 
-def calculate(initialFunds, annualContribution, yearsContributing, returnRate):
+def calculate(initialFunds, annualContribution, contributionTime, yearsContributing, returnRate):
     firstYear = YearlyInfo(initialFunds, 0)
     firstYear.calculateYear(annualContribution, returnRate)
 
     yearly_data = [firstYear]
 
+    print(contributionTime)
     return recursive_calculate_yearly_data(yearly_data, annualContribution, returnRate, yearsContributing-1)
 
 def recursive_calculate_yearly_data(yearly_data, annualContribution, returnRate, yearsLeft):

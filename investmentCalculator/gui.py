@@ -34,8 +34,8 @@ def update_page_ui_select(table, page_menu, page_menu_variable):
 
     page_menu.update()
 
-def submit(table, page_menu, canvas_drawer, page_menu_variable, initialFunds, annualContribution, yearsContributing, returnRate):
-    calculate_data(table, canvas_drawer, initialFunds, annualContribution, yearsContributing, returnRate)
+def submit(table, page_menu, canvas_drawer, page_menu_variable, initialFunds, annualContribution, contributionTime, yearsContributing, returnRate):
+    calculate_data(table, canvas_drawer, initialFunds, annualContribution, contributionTime, yearsContributing, returnRate)
 
     update_page_ui_select(table, page_menu, page_menu_variable)
 
@@ -49,8 +49,8 @@ def update_page_number(table, page_number, page_menu_variable):
     table.set_page(str(page_number))
     page_menu_variable.set(page_number)
 
-def calculate_data(table, canvas_drawer, initialFunds,  annualContribution, yearsContributing, returnRate):
-    data = calculate(initialFunds, annualContribution, yearsContributing, returnRate)
+def calculate_data(table, canvas_drawer, initialFunds,  annualContribution, contributionTime, yearsContributing, returnRate):
+    data = calculate(initialFunds, annualContribution, contributionTime, yearsContributing, returnRate)
 
     table.set_data(data)
     table.update()
@@ -81,6 +81,10 @@ def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer)
     annualContributionEntry.insert(0, annual_contribution_variable.get())
     annualContributionEntry.grid(row=2, column=1, columnspan=1, sticky="nsew")
 
+    contribution_options = ['Year Start', 'Year End']
+    contributionTimeMenu = OptionMenu(left_input_frame, contribution_time_variable, *(contribution_options))
+    contributionTimeMenu.grid(row=2, column=2, sticky="nsew")
+
     yearsContributingLabel = tk.Label(left_input_frame, text="Years Contributing (years): ", anchor="w")
     yearsContributingLabel.grid(row=3, column=0, sticky="nsew")
     
@@ -100,9 +104,12 @@ def generate_left_input_frame(left_input_frame, table, page_menu, canvas_drawer)
     yearsContributingEntry.bind('<KeyRelease>', lambda event: set_number_variable_from_input(years_contributing_variable, yearsContributingEntry))
     returnRateEntry.bind('<KeyRelease>', lambda event: set_number_variable_from_input(return_rate_variable, returnRateEntry))
 
-    submitButton = tk.Button(left_input_frame, text="Submit", command=lambda: submit(table, page_menu, canvas_drawer, page_menu_variable,
-                                                                                     initialFunds=float(initialFundsEntry.get()), annualContribution=float(annualContributionEntry.get()), 
-                                                                                     yearsContributing=float(yearsContributingEntry.get()), returnRate=float(returnRateEntry.get())/100))
+    submitButton = tk.Button(left_input_frame, text="Submit", 
+                             command=lambda: submit(table, page_menu, canvas_drawer, page_menu_variable,
+                                                    initialFunds=float(initialFundsEntry.get()), annualContribution=float(annualContributionEntry.get()), 
+                                                    contributionTime=contribution_time_variable.get(), yearsContributing=float(yearsContributingEntry.get()), 
+                                                    returnRate=float(returnRateEntry.get())/100))
+    
     submitButton.grid(row=6, column=0, sticky="nsew")
 
     return [submitButton]
@@ -171,7 +178,6 @@ def gui(root):
     canvas.pack(side="top", expand=True, fill="both")
 
     canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
-    root.bind("<Configure>", lambda event: canvas_drawer.draw_years())
 
 
     table = Table(root=tableFrame, startRow=0, startCol=2)
@@ -183,9 +189,11 @@ def gui(root):
     dark_mode_check_box = tk.Checkbutton(topBarFrame, text='Darkmode',variable=darkmode_enabled, onvalue=True, offvalue=False, command=lambda: theme(root, darkmode_enabled.get()))
     dark_mode_check_box.grid(row=0, column=2, sticky="e")
 
-    dark_mode_check_box.bind('<Configure>', lambda event: submitButton.invoke())
     preferences(topBarFrame)
 
+    root.bind("<Configure>", lambda event: canvas_drawer.draw_years())
+    dark_mode_check_box.bind('<Configure>', lambda event: submitButton.invoke())
+    
 if __name__ == "__main__":
 
     root = tk.Tk()
@@ -206,6 +214,7 @@ if __name__ == "__main__":
 
     initial_funds_variable = tk.DoubleVar(value=0)
     annual_contribution_variable = tk.DoubleVar(value=0)
+    contribution_time_variable = tk.StringVar(value='Year Start')
     years_contributing_variable = tk.IntVar(value=30)
     return_rate_variable = tk.DoubleVar(value=6)
 
