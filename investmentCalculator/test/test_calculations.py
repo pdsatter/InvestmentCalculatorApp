@@ -1,4 +1,4 @@
-from calculations.calculations import calculate
+from ..src.calculations.calculations import calculate
 import unittest
 
 class TestCalculations(unittest.TestCase):

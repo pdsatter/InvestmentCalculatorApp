@@ -1,4 +1,4 @@
-from calculations.yearly_info import YearlyInfo
+from .yearly_info import YearlyInfo
 
 class YearEndCalculator():
     def calculate_data(self, initialFunds, annualContribution, yearsContributing, returnRate):

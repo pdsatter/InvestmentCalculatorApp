@@ -1,5 +1,5 @@
-from calculations.year_start_calculator import YearStartCalculator
-from calculations.year_end_calculator import YearEndCalculator
+from .year_start_calculator import YearStartCalculator
+from .year_end_calculator import YearEndCalculator
 
 class CalculatorFactory():
     def get_calculator(type):
