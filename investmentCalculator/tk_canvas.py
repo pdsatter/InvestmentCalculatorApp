@@ -4,17 +4,25 @@ class CanvasDrawer():
 
         self.height = height
         self.width = width
+        self.data = []
     
     def clear(self):
         self.canvas.delete("all")
 
-    def draw_years(self, years_data):
+    def draw_years(self, years_data=[]):
+        if years_data == []:
+            years_data = self.data
+
+        self.data = years_data
         self.clear()
 
         for year in years_data:
             self.draw_year(year, years_data)    
 
     def draw_year(self, year_data, years_data):
+        self.width = self.get_width()
+        self.height = self.get_height()
+
         height1 = year_data.finalContributedFunds
         height2 = year_data.finalInterestFunds
 
@@ -31,6 +39,12 @@ class CanvasDrawer():
         self.draw_rectangle(x1,self.height,x2,y1)
         self.draw_rectangle(x1,y1,x2,y2, fill="green")
     
+    def get_width(self):
+        return self.canvas.winfo_width()
+    
+    def get_height(self):
+        return self.canvas.winfo_height()
+
     def calc_normalized_width(self, number_of_rectangles, margin_right=0):
         rect_width = (self.width - margin_right) / (number_of_rectangles)
         return rect_width

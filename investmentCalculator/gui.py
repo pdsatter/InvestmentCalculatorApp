@@ -133,7 +133,7 @@ def generate_right_input_frame(right_input_frame, table):
     return [page_menu]
 
 def create_frames(root):
-    main_frame = tk.Frame(root).grid()
+    main_frame = tk.Frame(root).grid(sticky="nsew")
 
     topBarFrame = tk.Frame(main_frame, borderwidth = 1, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
     topBarFrame.grid(row=0, column=0, columnspan=2, sticky="nsew")
@@ -168,9 +168,11 @@ def gui(root):
     [topBarFrame, canvasFrame, tableFrame, leftInputFrame, rightInputFrame] = create_frames(root)
 
     canvas = tk.Canvas(canvasFrame, width=canvas_width, height=canvas_height, highlightthickness=0.5, highlightbackground=highlight(darkmode_enabled.get()))
-    canvas.pack(side="top")
+    canvas.pack(side="top", expand=True, fill="both")
 
     canvas_drawer = CanvasDrawer(canvas, width=canvas_width, height=canvas_height)
+    root.bind("<Configure>", lambda event: canvas_drawer.draw_years())
+
 
     table = Table(root=tableFrame, startRow=0, startCol=2)
 
@@ -196,8 +198,8 @@ if __name__ == "__main__":
     root.winfo_screenwidth()
     root.winfo_screenheight()
 
-    root.grid_columnconfigure(2, weight=1)
-    root.grid_rowconfigure(2, weight=1)
+
+    root.grid_columnconfigure(0, weight=1)
 
     darkmode_enabled = tk.BooleanVar(value=False)
 
