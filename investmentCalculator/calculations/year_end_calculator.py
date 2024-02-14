@@ -26,4 +26,3 @@ class YearEndCalculator():
         year.finalInterestFunds = year.startingInterestFunds + returnRate * yearStartFunds
 
         year.finalTotalFunds = year.finalInterestFunds + year.finalContributedFunds
-
