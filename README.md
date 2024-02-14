@@ -8,9 +8,10 @@ Contact me if you need help or additional features. View my profile for informat
 
 ## How to run
 ### To run Windows build
-1. Download "windows_distribution" folder
-2. Open "gui" file
-3. Thats it :D
+1. Go to green code folder and download zip
+2. Go to "windows_distribution" folder
+3. Open "gui" file
+4. Thats it :D
 
 ### For programers
 Run the gui.py file in VSCode or python interpreter
