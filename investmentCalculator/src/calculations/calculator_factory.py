@@ -7,4 +7,4 @@ class CalculatorFactory():
             return YearStartCalculator()
         elif type =='Year End':
             return YearEndCalculator()
-        else: Exception('Calculator Not found')
+        else: raise Exception('Calculator Not found')
